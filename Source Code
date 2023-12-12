@@ -1,0 +1,76 @@
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(8,9,10,11,12,13);
+int p1=4, p2=3;
+int l1=5, l2=6;
+int duration1, duration2;
+int s1, s2;
+
+
+void setup()
+{
+  Serial.begin(9600);
+  lcd.begin(16,2);
+  analogWrite(7,10);
+  lcd.print("System Initiated");
+  delay(1000);
+  lcd.clear();
+  pinMode(l1,OUTPUT);
+  pinMode(l2,OUTPUT);
+  digitalWrite(l1,HIGH);
+  digitalWrite(l2,HIGH);
+  
+  
+}
+
+void loop()
+{
+  pinMode(p1,OUTPUT);
+  digitalWrite(p1,LOW);
+  delay(2);
+  digitalWrite(p1,HIGH);
+  delay(5);
+  digitalWrite(p1,LOW);
+  pinMode(p1,INPUT);
+  duration1 = pulseIn(p1,HIGH);
+  s1 = duration1*0.034/2;
+  Serial.println(s1);
+  if(s1>100)
+  {
+    digitalWrite(l1,LOW);
+    lcd.setCursor(0,0);
+    lcd.print("Site1 is FREE ");
+    delay(10);
+  }
+  else
+  {
+    digitalWrite(l1,HIGH);
+    lcd.setCursor(0,0);
+    lcd.print("Site1 NOT Free");
+    delay(10);
+  }
+  pinMode(p2,OUTPUT);
+  digitalWrite(p2,LOW);
+  delay(2);
+  digitalWrite(p2,HIGH);
+  delay(5);
+  digitalWrite(p2,LOW);
+  pinMode(p2,INPUT);
+  duration2 = pulseIn(p2,HIGH);
+  s2 = duration2*0.034/2;
+  Serial.println(s2);
+  if(s2>100)
+  {
+    digitalWrite(l2,LOW);
+    lcd.setCursor(0,1);
+    lcd.print("Site2 is FREE ");
+    delay(10);
+  }
+  else
+  {
+    digitalWrite(l2,HIGH);
+    lcd.setCursor(0,1);
+    lcd.print("Site2 NOT Free");
+  	delay(10);
+  }
+    
+}
